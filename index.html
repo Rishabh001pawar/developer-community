@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNCT Developer Community</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Google Fonts: Orbitron & Montserrat -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@400;600&display=swap"
+        rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="overflow-x-hidden">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container mx-auto">
+            <a href="#home" class="nav-logo neon-text">JNCT DEV</a>
+            <div class="hamburger">
+                <i data-feather="menu" class="w-8 h-8"></i>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#Tech">Tech</a>
+                <a href="#events">Events</a>
+                <a href="#mentors">Mentors</a>
+                <a href="#hall-of-fame">Hall of Fame</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#join-us">Join Us</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+                <a href="#faqs">FAQs</a>
+            </div>
+        </div>
+        <div class="mobile-menu">
+            <a href="#home">Home</a>
+            <a href="#Tech">Tech</a>
+            <a href="#events">Events</a>
+            <a href="#mentors">Mentors</a>
+            <a href="#hall-of-fame">Hall of Fame</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#join-us">Join Us</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+            <a href="#faqs">FAQs</a>
+        </div>
+    </nav>
+
+    <style>
+        .navbar {
+            background: linear-gradient(to right, #D81B60, #00B0FF);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 6xl;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 8px #D81B60, 0 0 16px #00B0FF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #F1F5F9;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            width: 100%;
+            background: #1E293B;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem;
+            color: #F1F5F9;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a,
+        .mobile-menu a {
+            color: #F1F5F9;
+            font-weight: 600;
+            transition: transform 0.2s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-links a:hover,
+        .mobile-menu a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .nav-links a:active,
+        .mobile-menu a:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-menu a:hover {
+            color: #00B0FF;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        feather.replace();
+
+        // Hamburger menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+
+    <!-- Sticky Sidebar -->
+    <div class="hidden md:block fixed left-0 top-20 w-48 p-4 text-center sticky-sidebar z-10 box">
+        <h3 class="text-lg font-bold neon-text">JNCT DEV</h3>
+        <p class="text-sm mt-2">Tech Revolution</p>
+        <a href="joinus.html"
+            class="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-[#D81B60] to-[#00B0FF] text-white rounded-full hover-effect text-sm">Join
+            Now</a>
+    </div>
+
+    <!-- WhatsApp-style Join Button -->
+    <a href="https://chat.whatsapp.com/COFVWv1nUs9DCplC8xmYcl" target="_blank"
+        class="fixed bottom-5 right-5 z-50 px-4 py-2 bg-[#1E2E28] text-white text-xs font-medium rounded-full shadow-md border border-[#25D366] hover:bg-[#25D366] hover:text-black hover:scale-105 active:scale-110 transition-all duration-300 cursor-pointer flex items-center gap-1">
+        <i data-feather="message-circle" class="w-4 h-4 text-[#25D366]"></i> Join WhatsApp for updates
+    </a>
+
+
+    <!-- Home Page -->
+    <section id="home" class="min-h-screen pt-20 px-6 md:px-20" style="padding-top: 6rem;">
+        <div class="slider parallax-bg" style="background-image: url('images/bg.jpg');"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center bg-[#121212] bg-opacity-75">
+            <h1 class="text-4xl md:text-6xl font-bold neon-text" data-aos="zoom-in">
+                JNCT Developer Community
+            </h1>
+            <p class="text-xl md:text-2xl mt-4 text-[#00B0FF] font-semibold" data-aos="fade-up" data-aos-delay="200">
+                "Seniors Light the Path, Juniors Conquer the Sky"
+            </p>
+            <a href="joinus.html"
+                class="mt-8 px-8 py-4 bg-gradient-to-r from-[#D81B60] to-[#00B0FF] text-white rounded-full hover-effect border-2 border-[#D81B60]"
+                data-aos="fade-up" data-aos-delay="400">
+                Get Started
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Tech Frontiers We Conquer -->
+    <section id="Tech" class="py-20 px-6 md:px-20 bg-[#0F172A] text-white relative overflow-hidden section-assent">
+        <!-- Background Effect -->
+        <div class="  opacity-80 z-0 section-assent"></div>
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
+            <div class="w-64 h-64 bg-[#D81B60] opacity-10 rounded-full blur-3xl absolute top-10 left-10"></div>
+            <div class="w-96 h-96 bg-[#00B0FF] opacity-10 rounded-full blur-3xl absolute bottom-20 right-20"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-center mb-20 tracking-tight neon-text animate-pulse"
+                data-aos="zoom-out">Tech Frontiers We Conquer</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Machine Learning -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-right" data-aos-delay="0">
+                    <div class="flex justify-center">
+                        <img src="images/ml-model.png" alt="Machine Learning Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#00B0FF] text-center tracking-wide">Machine Learning</h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Unleashing intelligence that evolves
+                        with every byte.</p>
+                </div>
+                <!-- Artificial Intelligence -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex justify-center">
+                        <img src="images/ai.png" alt="Artificial Intelligence Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#D81B60] text-center tracking-wide">Artificial Intelligence
+                    </h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Engineering the brain of tomorrow’s
+                        world.</p>
+                </div>
+                <!-- Cybersecurity -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-left" data-aos-delay="400">
+                    <div class="flex justify-center">
+                        <img src="images/CS.png" alt="Cybersecurity Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#34D399] text-center tracking-wide">Cybersecurity</h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Fortifying the digital frontier
+                        against all odds.</p>
+                </div>
+                <!-- Web Development -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-right" data-aos-delay="600">
+                    <div class="flex justify-center">
+                        <img src="images/web d.png" alt="Web Development Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#E1306C] text-center tracking-wide">Web Development</h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Weaving the web with precision and
+                        flair.</p>
+                </div>
+                <!-- App Development -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-up" data-aos-delay="800">
+                    <div class="flex justify-center">
+                        <img src="images/app.png" alt="App Development Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#FBBF24] text-center tracking-wide">App Development</h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Crafting apps that redefine mobile
+                        mastery.</p>
+                </div>
+                <!-- Internet of Things -->
+                <div class="group p-6 bg-[#1E293B] rounded-2xl shadow-2xl transform transition-all duration-500 hover:-translate-y-4 hover:bg-[#2A3B5A]"
+                    data-aos="fade-left" data-aos-delay="1000">
+                    <div class="flex justify-center">
+                        <img src="images/iot.png" alt="IoT Icon"
+                            class="w-16 h-16 transition-transform duration-300 group-hover:rotate-12">
+                    </div>
+                    <h3 class="text-3xl font-bold mt-6 text-[#D946EF] text-center tracking-wide">Internet of Things</h3>
+                    <p class="text-sm opacity-80 mt-3 text-center leading-relaxed">Connecting the world, one device at a
+                        time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section id="events" class="py-20 px-6 md:px-20  text-white section-accent">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 " data-aos="fade-down">🚀 Our Events
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Web Development Workshop -->
+                <div class="p-6 bg-[#1E293B] rounded-xl shadow-md border border-[#00B0FF] hover:shadow-[0_0_20px_#00B0FF] transition duration-300 transform hover:scale-105"
+                    data-aos="fade-up">
+                    <img src="images/web dev.jpg" alt="Web Development Workshop"
+                        class="w-full h-48 object-cover rounded-lg">
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-[#00B0FF]">🌐 Web Development Workshop</h3>
+                        <p class="opacity-80 mt-2 leading-relaxed">💻 Build your first website from scratch with expert
+                            guidance.</p>
+                        <p class="mt-2 text-sm opacity-60">TBD</p>
+                        <a href="#register"
+                            class="mt-3 inline-block text-[#00B0FF] hover:text-[#1E90FF] font-semibold transition-colors duration-300">Register
+                            Now →</a>
+                    </div>
+                </div>
+                <!-- Hackathon Challenge -->
+                <div class="p-6 bg-[#1E293B] rounded-xl shadow-md border border-[#34D399] hover:shadow-[0_0_20px_#34D399] transition duration-300 transform hover:scale-105"
+                    data-aos="fade-up" data-aos-delay="150">
+                    <img src="images/hackathon.jpg" alt="Hackathon Challenge"
+                        class="w-full h-48 object-cover rounded-lg">
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-[#34D399]">⚡ Hackathon Challenge</h3>
+                        <p class="opacity-80 mt-2 leading-relaxed">💡 Innovate, code, and compete for awesome prizes!
+                        </p>
+                        <p class="mt-2 text-sm opacity-60">TBD</p>
+                        <a href="#register"
+                            class="mt-3 inline-block text-[#34D399] hover:text-[#2DD4BF] font-semibold transition-colors duration-300">Join
+                            Now →</a>
+                    </div>
+                </div>
+                <!-- Code Quest Sprint -->
+                <div class="p-6 bg-[#1E293B] rounded-xl shadow-md border border-[#FBBF24] hover:shadow-[0_0_20px_#FBBF24] transition duration-300 transform hover:scale-105"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <img src="images/code quest.jpeg" alt="Code Quest Sprint"
+                        class="w-full h-48 object-cover rounded-lg">
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-[#FBBF24]">🎯 Code Quest Sprint</h3>
+                        <p class="opacity-80 mt-2 leading-relaxed">🔥 Compete, collaborate, and create in a coding
+                            showdown.</p>
+                        <p class="mt-2 text-sm opacity-60">TBD</p>
+                        <a href="#register"
+                            class="mt-3 inline-block text-[#FBBF24] hover:text-[#FFD700] font-semibold transition-colors duration-300">Sign
+                            Up →</a>
+                    </div>
+                </div>
+                <!-- Tech Seminar -->
+                <div class="p-6 bg-[#1E293B] rounded-xl shadow-md border border-[#D946EF] hover:shadow-[0_0_20px_#D946EF] transition duration-300 transform hover:scale-105"
+                    data-aos="fade-up" data-aos-delay="450">
+                    <img src="images/techsem.jpg" alt="Tech Seminar" class="w-full h-48 object-cover rounded-lg">
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-[#D946EF]">🎓 Tech Seminar</h3>
+                        <p class="opacity-80 mt-2 leading-relaxed">🧠 Explore the future of tech with industry leaders.
+                        </p>
+                        <p class="mt-2 text-sm opacity-60">TBD</p>
+                        <a href="#register"
+                            class="mt-3 inline-block text-[#D946EF] hover:text-[#FF6BCB] font-semibold transition-colors duration-300">Reserve
+                            Spot →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Mentors -->
+    <section id="mentors" class="py-20 px-6 md:px-20 section-bg">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 " data-aos="fade-down">🎯 Learn from Your Seniors</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                <!-- Mentor 1 -->
+                <div class="p-8 box bg-[#1E1E1E] hover-effect rounded-xl shadow-lg" data-aos="fade-up">
+                    <img src="images/image1.jpg" alt="Rishabh Farkade - Mentor"
+                        class="w-40 h-40 rounded-full mx-auto shadow-lg object-cover border-4 border-[#00B0FF] hover:scale-105 transition-transform duration-300">
+
+                    <h3 class="mt-6 text-2xl font-bold text-white">Rishabh Farkade</h3>
+                    <p class="text-sm text-gray-400 mt-2">Software Engineer | Cybersecurity Enthusiast</p>
+
+                    <div class="flex justify-center items-center gap-4 mt-4">
+                        <a href="https://www.linkedin.com/in/rishabhfarkade" target="_blank"
+                            class="text-[#00B0FF] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="linkedin" class="text-3xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/rishabhfarkade" target="_blank"
+                            class="text-[#E4405F] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="instagram" class="text-3xl"></i>
+                        </a>
+                        <a href="mailto:rishabhfarkade@example.com"
+                            class="text-[#FF9800] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="mail" class="text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mentor 2 -->
+                <div class="p-8 box bg-[#1E1E1E] hover-effect rounded-xl shadow-lg" data-aos="fade-up">
+                    <img src="images/image1.jpg" alt="Rishabh Farkade - Mentor"
+                        class="w-40 h-40 rounded-full mx-auto shadow-lg object-cover border-4 border-[#00B0FF] hover:scale-105 transition-transform duration-300">
+
+                    <h3 class="mt-6 text-2xl font-bold text-white">Rishabh Farkade</h3>
+                    <p class="text-sm text-gray-400 mt-2">Software Engineer | Cybersecurity Enthusiast</p>
+
+                    <div class="flex justify-center items-center gap-4 mt-4">
+                        <a href="https://www.linkedin.com/in/rishabhfarkade" target="_blank"
+                            class="text-[#00B0FF] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="linkedin" class="text-3xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/rishabhfarkade" target="_blank"
+                            class="text-[#E4405F] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="instagram" class="text-3xl"></i>
+                        </a>
+                        <a href="mailto:rishabhfarkade@example.com"
+                            class="text-[#FF9800] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="mail" class="text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mentor 3 -->
+                <div class="p-8 box bg-[#1E1E1E] hover-effect rounded-xl shadow-lg" data-aos="fade-up">
+                    <img src="images/image1.jpg" alt="Rishabh Farkade - Mentor"
+                        class="w-40 h-40 rounded-full mx-auto shadow-lg object-cover border-4 border-[#00B0FF] hover:scale-105 transition-transform duration-300">
+
+                    <h3 class="mt-6 text-2xl font-bold text-white">Rishabh Farkade</h3>
+                    <p class="text-sm text-gray-400 mt-2">Software Engineer | Cybersecurity Enthusiast</p>
+
+                    <div class="flex justify-center items-center gap-4 mt-4">
+                        <a href="https://www.linkedin.com/in/rishabhfarkade" target="_blank"
+                            class="text-[#00B0FF] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="linkedin" class="text-3xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/rishabhfarkade" target="_blank"
+                            class="text-[#E4405F] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="instagram" class="text-3xl"></i>
+                        </a>
+                        <a href="mailto:rishabhfarkade@example.com"
+                            class="text-[#FF9800] hover:text-[#D81B60] transition-all duration-300">
+                            <i data-feather="mail" class="text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- About -->
+    <section id="about" class="py-20 px-6 md:px-20 section-accent">
+        <div class="max-w-5xl mx-auto box">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 neon-text">About Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold">Who We Are</h3>
+                    <p class="mt-4">A student-led community bridging juniors and seniors through free mentorship,
+                        hands-on projects, and tech events.</p>
+                </div>
+                <div data-aos="fade-left">
+                    <h3 class="text-2xl font-bold">Why Join?</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li>Real-world project experience</li>
+                        <li>Exclusive workshops & hackathons</li>
+                        <li>Mentorship from seniors</li>
+                        <li>Portfolio-building opportunities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hall of Fame -->
+    <section id="hall-of-fame" class="py-20 px-6 md:px-20 section-bg bg-[#0F172A] text-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 ">Hall of Fame</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Android Dev -->
+                <div class="p-6 box bg-[#1E293B] hover-effect rounded-lg shadow-lg" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-[#D81B60]">Android Dev</h3>
+                    <p class="mt-2 opacity-80"> 5+ projects, including a trending fitness app</p>
+                    <p class="mt-2 opacity-80"> 10+ projects, Google Play featured developer</p>
+                </div>
+                <!-- Machine Learning -->
+                <div class="p-6 box bg-[#1E293B] hover-effect rounded-lg shadow-lg" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <h3 class="text-xl font-bold text-[#00B0FF]">Machine Learning</h3>
+                    <p class="mt-2 opacity-80"> 5+ projects, AI-powered chatbot innovator</p>
+                    <p class="mt-2 opacity-80"> 10+ projects, Kaggle Grandmaster</p>
+                </div>
+                <!-- Web Dev -->
+                <div class="p-6 box bg-[#1E293B] hover-effect rounded-lg shadow-lg" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <h3 class="text-xl font-bold text-[#E1306C]">Web Dev</h3>
+                    <p class="mt-2 opacity-80"> 10+ projects, Full-stack wizard</p>
+                    <p class="mt-2 opacity-80"> Landed a top-tier internship at a tech giant</p>
+                </div>
+                <!-- Cybersecurity (Motivational Twist) -->
+                <div class="p-6 box bg-[#1E293B] hover-effect rounded-lg shadow-lg border border-[#34D399]"
+                    data-aos="fade-up" data-aos-delay="600">
+                    <h3 class="text-xl font-bold text-[#34D399] mb-4">Your Spot Awaits!</h3>
+                    <p class="mt-2 font-semibold text-[#34D399] leading-relaxed">You could be here! Start your journey
+                        with JNCT Dev today.</p>
+                </div>>
+            </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-20 px-6 md:px-20 section-accent">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 ">Testimonials</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 card-bg hover-effect" data-aos="fade-up">
+                    <img src="https://via.placehol" alt="Alumni 1" class="w-32 h-32 rounded-full mx-auto">
+                    <p class="mt-4">"Landed an internship!"</p>
+                    <p class="mt-2 font-semibold text-[#00B0FF]">Naman Kumar</p>
+                </div>
+                <div class="p-6 card-bg hover-effect" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://via.placeholder.com/150" alt="Alumni 2" class="w-32 h-32 rounded-full mx-auto">
+                    <p class="mt-4">"SIH finalist thanks to ML!"</p>
+                    <p class="mt-2 font-semibold text-[#00B0FF]">Aman Mishra</p>
+                </div>
+                <div class="p-6 card-bg hover-effect" data-aos="fade-up" data-aos-delay="400">
+                    <img src="images/test1.jpg" alt="Alumni 3" class="w-32 h-32 rounded-full mx-auto">
+                    <p class="mt-4">"NEC FINALIST E-CELL IITB"</p>
+                    <p class="mt-2 font-semibold text-[#00B0FF]">E-CELL JNCT</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Join -->
+    <section id="join-us" class="py-20 px-6 md:px-20 section-bg">
+        <div class="max-w-5xl mx-auto box">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 neon-text">How to Join?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold">Coding Quest</h3>
+                    <p class="mt-4">Annual competition with MCQs & coding challenges. 200+ participants, ₹1000 prizes!
+                    </p>
+                    <p class="mt-2"><strong>Dates:</strong> April 1-16, 2025</p>
+                </div>
+                <div data-aos="fade-left">
+                    <h3 class="text-2xl font-bold">Hackathon</h3>
+                    <p class="mt-4">Showcase your skills & join the community. Top performers get in!</p>
+                    <a href="codeus.html"
+                        class="mt-4 inline-block px-6 py-3 bg-gradient-to-r from-[#D81B60] to-[#00B0FF] text-white rounded-full hover-effect border-2 border-[#D81B60]">Register</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="py-20 px-6 md:px-20 section-accent">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 ">Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <img src="images/rob.jpg" alt="Workshop"
+                    class="w-full h-48 object-cover rounded-lg hover-effect border-2 border-[#D81B60]"
+                    data-aos="fade-up">
+                <img src="images/ws1.jpg" alt="Hackathon"
+                    class="w-full h-48 object-cover rounded-lg hover-effect border-2 border-[#D81B60]"
+                    data-aos="fade-up" data-aos-delay="200">
+                <img src="images/ws.jpg" alt="Winning Moment"
+                    class="w-full h-48 object-cover rounded-lg hover-effect border-2 border-[#D81B60]"
+                    data-aos="fade-up" data-aos-delay="400">
+                <img src="images/ws2.jpg" alt="Coding Session"
+                    class="w-full h-48 object-cover rounded-lg hover-effect border-2 border-[#D81B60]"
+                    data-aos="fade-up" data-aos-delay="600">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+
+    <section id="contact" class="py-16 px-4 md:px-16 section-bg">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Contact Us</h2>
+
+            <form id="contact-form" action="https://api.web3forms.com/submit" method="POST"
+                class="max-w-md mx-auto box bg-[#1E1E1E] p-6 rounded-xl shadow-lg" data-aos="fade-up">
+                <input type="hidden" name="access_key" value="2ced235d-205c-456e-97e4-f5dcef96fa76" />
+
+                <label for="name" class="sr-only">Name</label>
+                <input type="text" name="name" id="name" placeholder="Name" required
+                    class="w-full p-3 mb-3 border border-[#D81B60] rounded-lg bg-[#121212] text-white text-sm" />
+
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email" required
+                    class="w-full p-3 mb-3 border border-[#D81B60] rounded-lg bg-[#121212] text-white text-sm" />
+
+                <label for="message" class="sr-only">Message</label>
+                <textarea name="message" id="message" placeholder="Message" required
+                    class="w-full p-3 mb-3 border border-[#D81B60] rounded-lg bg-[#121212] text-white h-24 text-sm resize-none"></textarea>
+
+                <button type="submit"
+                    class="w-full py-3 bg-gradient-to-r from-[#D81B60] to-[#00B0FF] text-white rounded-full hover-effect border border-[#D81B60] text-sm font-semibold">
+                    Send
+                </button>
+
+                <!-- Success Message -->
+                <p id="form-status" class="mt-4 text-sm text-green-400 hidden">Message sent successfully!</p>
+            </form>
+
+            <p class="mt-6 text-sm text-gray-400">
+                Email:
+                <a href="mailto:jnct.devcommunity@gmail.com" class="text-white hover:underline">
+                    jnct.devcommunity@gmail.com
+                </a>
+            </p>
+        </div>
+        <!-- !-- JS to reset form and show success message -->
+        <script>
+            const form = document.getElementById("contact-form");
+            const status = document.getElementById("form-status");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { Accept: "application/json" },
+                });
+
+                if (response.ok) {
+                    form.reset();
+                    status.classList.remove("hidden");
+                    status.textContent = "Message sent successfully!";
+                    status.classList.add("text-green-400");
+
+                    // Hide the message after 5 seconds
+                    setTimeout(() => {
+                        status.classList.add("hidden");
+                    }, 5000);
+                } else {
+                    status.classList.remove("hidden");
+                    status.textContent = "Oops! Something went wrong.";
+                    status.classList.add("text-red-400");
+                }
+            });
+        </script>
+    </section>
+
+
+
+
+    <!-- FAQs -->
+    <section id="faqs" class="py-20 px-6 md:px-20 section-bg bg-[#0F172A] text-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 neon-text" data-aos="fade-down">FAQs</h2>
+            <div class="faq-container space-y-4">
+                <!-- Single FAQ Item -->
+                <div class="faq-item border border-[#334155] rounded-xl overflow-hidden" data-aos="fade-up">
+                    <button
+                        class="faq-question w-full px-6 py-4 flex justify-between items-center bg-[#1E293B] text-left">
+                        <h3 class="text-base md:text-lg font-semibold">How can I join the community?</h3>
+                        <span class="faq-toggle transition-transform"><i data-feather="chevron-down"
+                                class="w-5 h-5"></i></span>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 hidden text-sm text-gray-300">
+                        You can join through our Coding Quest or Hackathon events. Check the "How to Join" section for
+                        details and registration!
+                    </div>
+                </div>
+
+                <!-- Repeat for more FAQs -->
+                <div class="faq-item border border-[#334155] rounded-xl overflow-hidden" data-aos="fade-up"
+                    data-aos-delay="100">
+                    <button
+                        class="faq-question w-full px-6 py-4 flex justify-between items-center bg-[#1E293B] text-left">
+                        <h3 class="text-base md:text-lg font-semibold">What events do you organize?</h3>
+                        <span class="faq-toggle transition-transform"><i data-feather="chevron-down"
+                                class="w-5 h-5"></i></span>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 hidden text-sm text-gray-300">
+                        We host workshops, hackathons, coding sprints, and tech seminars. See the Events section for
+                        more info.
+                    </div>
+                </div>
+
+                <div class="faq-item border border-[#334155] rounded-xl overflow-hidden" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <button
+                        class="faq-question w-full px-6 py-4 flex justify-between items-center bg-[#1E293B] text-left">
+                        <h3 class="text-base md:text-lg font-semibold">Is there a cost to join?</h3>
+                        <span class="faq-toggle transition-transform"><i data-feather="chevron-down"
+                                class="w-5 h-5"></i></span>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 hidden text-sm text-gray-300">
+                        No, it’s completely free! We’re a student-led initiative focused on skill-building and
+                        collaboration.
+                    </div>
+                </div>
+
+                <div class="faq-item border border-[#334155] rounded-xl overflow-hidden" data-aos="fade-up"
+                    data-aos-delay="300">
+                    <button
+                        class="faq-question w-full px-6 py-4 flex justify-between items-center bg-[#1E293B] text-left">
+                        <h3 class="text-base md:text-lg font-semibold">Who provides mentorship?</h3>
+                        <span class="faq-toggle transition-transform"><i data-feather="chevron-down"
+                                class="w-5 h-5"></i></span>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 hidden text-sm text-gray-300">
+                        Our senior members with expertise in various tech domains mentor juniors. Meet them in the
+                        Mentors section!
+                    </div>
+                </div>
+
+                <div class="faq-item border border-[#334155] rounded-xl overflow-hidden" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <button
+                        class="faq-question w-full px-6 py-4 flex justify-between items-center bg-[#1E293B] text-left">
+                        <h3 class="text-base md:text-lg font-semibold">What can I learn here?</h3>
+                        <span class="faq-toggle transition-transform"><i data-feather="chevron-down"
+                                class="w-5 h-5"></i></span>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 hidden text-sm text-gray-300">
+                        Skills like Machine Learning, Web/App Development, Cybersecurity, IoT, and more through hands-on
+                        projects.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            feather.replace();
+
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const toggleIcon = item.querySelector('.faq-toggle');
+
+                question.addEventListener('click', () => {
+                    const isOpen = answer.classList.contains('block');
+
+                    // Close all
+                    faqItems.forEach(i => {
+                        i.querySelector('.faq-answer').classList.add('hidden');
+                        i.querySelector('.faq-answer').classList.remove('block');
+                        i.querySelector('.faq-toggle').classList.remove('rotate-180');
+                    });
+
+                    // Toggle this one
+                    if (!isOpen) {
+                        answer.classList.remove('hidden');
+                        answer.classList.add('block');
+                        toggleIcon.classList.add('rotate-180');
+                    }
+                });
+            });
+        </script>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0F172A] text-white py-10 px-5 md:px-20 bg-black">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-sm md:text-base">
+            <!-- Left: Branding & Socials -->
+            <div>
+                <h3 class="text-2xl font-bold mb-4 neon-text tracking-tight">JNCT Dev</h3>
+                <p class="opacity-80 mb-6 leading-relaxed">Building the future through code, collaboration, and
+                    community. Join the tech revolution!</p>
+                <div class="flex gap-5 mt-4">
+                    <a href="https://github.com" target="_blank"
+                        class="hover:text-[#D81B60] transition-colors duration-300" aria-label="GitHub">
+                        <i data-feather="github" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank"
+                        class="hover:text-[#00B0FF] transition-colors duration-300" aria-label="LinkedIn">
+                        <i data-feather="linkedin" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank"
+                        class="hover:text-[#E1306C] transition-colors duration-300" aria-label="Instagram">
+                        <i data-feather="instagram" class="w-6 h-6"></i>
+                    </a>
+                    <a href="mailto:contact@jnctdev.com" class="hover:text-green-400 transition-colors duration-300"
+                        aria-label="Email">
+                        <i data-feather="mail" class="w-6 h-6"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Middle: Quick Links -->
+            <div class="text-center md:text-left">
+                <h4 class="text-lg font-semibold mb-4 text-[#D81B60]">Quick Links</h4>
+                <ul class="space-y-3">
+                    <li><a href="#home"
+                            class="hover:underline hover:text-[#00B0FF] transition-colors duration-200">Home</a></li>
+                    <li><a href="#events"
+                            class="hover:underline hover:text-[#00B0FF] transition-colors duration-200">Events</a></li>
+                    <li><a href="#mentors"
+                            class="hover:underline hover:text-[#00B0FF] transition-colors duration-200">Mentors</a></li>
+                    <li><a href="#join-us"
+                            class="hover:underline hover:text-[#00B0FF] transition-colors duration-200">Join Us</a></li>
+                    <li><a href="#contact"
+                            class="hover:underline hover:text-[#00B0FF] transition-colors duration-200">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Divider & Copyright -->
+            <div class="border-t border-[#334155] mt-10 pt-6 text-center text-xs opacity-60">
+                © 2025 JNCT Developer Community • All Rights Reserved • Designed with <span
+                    class="text-red-500">♥</span> by the Community(Rishabh Farkade)
+            </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="scripts.js"></script>
+    <script>
+        feather.replace();
+    </script>
+
+</body>
+
+</html>

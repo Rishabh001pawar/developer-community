@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNCT Hackathon - Quiz Competition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body oncontextmenu="return false;" onkeydown="if(event.ctrlKey && (event.key === 'c' || event.key === 'v')) return false;">
+    <div class="bg-particles"></div>
+    <div class="container relative z-10">
+        <div class="quiz-section">
+            <h1 class="text-4xl font-extrabold mb-8 bg-gradient-to-r from-cyan-400 to-pink-500 text-transparent bg-clip-text">
+                JNCT Hackathon - Quiz
+            </h1>
+
+            <div id="adminSection" class="space-y-2 hidden w-full">
+                <h2 class="text-2xl font-bold text-cyan-400">Create Your Quiz</h2>
+                <div id="questionForm" class="space-y-4">
+                    <input type="text" id="newQuestion" placeholder="Enter question" class="block w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-700 focus:ring-0 focus:border-cyan-400">
+                    <div id="optionsContainer" class="space-y-2">
+                        <input type="text" class="option block w-full p-2 rounded-lg text-white bg-gray-800 border border-gray-700" placeholder="Option 1">
+                        <input type="text" class="option block w-full p-2 rounded-lg text-white bg-gray-800 border border-gray-700" placeholder="Option 2">
+                        <input type="text" class="option block w-full p-2 rounded-lg text-white bg-gray-800 border border-gray-700" placeholder="Option 3">
+                        <input type="text" class="option block w-full p-2 rounded-lg text-white bg-gray-800 border border-gray-700" placeholder="Option 4">
+                    </div>
+                    <input type="text" id="correctAnswer" placeholder="Correct Answer" class="block w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-700 focus:ring-0 focus:border-cyan-400">
+                    <button onclick="addQuestion()" class="w-full bg-gradient-to-r from-cyan-500 to-pink-500 text-white p-3 rounded-lg font-semibold btn-theme">Add Question</button>
+                </div>
+                <button onclick="generateQuizCode()" class="w-full bg-gradient-to-r from-cyan-500 to-pink-500 text-white p-4 rounded-lg font-semibold btn-theme">Generate Quiz Code</button>
+                <div id="quizCodeDisplay" class="text-center text-cyan-400 hidden"></div>
+                <div id="pendingParticipants" class="space-y-2 mt-4"></div>
+                <button onclick="startQuizAdmin()" class="w-full bg-gradient-to-r from-cyan-500 to-pink-500 text-white p-4 rounded-lg font-semibold btn-theme mt-4">Start Quiz</button>
+                <button onclick="resetAll()" class="w-full bg-red-500 text-white p-4 rounded-lg font-semibold btn-theme mt-4">Reset All</button>
+            </div>
+
+            <div id="nameSection" class="space-y-6 w-full">
+                <label class="block text-lg font-medium text-gray-300">Enter Your Name</label>
+                <input type="text" id="participantName" placeholder="Your name" class="block w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-700 focus:ring-0 focus:border-cyan-400" required>
+                <label class="block text-lg font-medium text-gray-300">Enter Quiz Code</label>
+                <input type="text" id="quizCode" placeholder="Quiz Code" class="block w-full p-3 rounded-lg text-white bg-gray-800 border border-gray-700 focus:ring-0 focus:border-cyan-400" required>
+                <button onclick="requestJoin()" class="w-full bg-gradient-to-r from-cyan-500 to-pink-500 text-white p-4 rounded-lg font-semibold btn-theme">Request to Join</button>
+                <button onclick="toggleAdmin()" class="w-full bg-gray-700 text-gray-200 p-3 rounded-lg font-semibold btn-theme">Admin Mode</button>
+            </div>
+
+            <div id="quizSection" class="hidden space-y-6 w-full">
+                <div id="questionContainer"></div>
+                <div class="timer">
+                    <div class="timer-bar" id="timerBar"></div>
+                </div>
+            </div>
+
+            <div id="celebrationScreen" class="celebration hidden">
+                <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-pink-500 text-transparent bg-clip-text">Correct!</h1>
+                <p class="text-lg text-gray-300 mt-2">Great Job!</p>
+            </div>
+
+            <div id="completionScreen" class="hidden fixed inset-0 bg-gray-900 text-white flex flex-col items-center justify-center text-center z-50">
+                <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-pink-500 text-transparent bg-clip-text mb-4 animate-bounce">Quiz Completed!</h1>
+                <p class="text-lg text-gray-300 mb-2">Your Score: <span id="finalScore"></span></p>
+                <p class="text-lg text-gray-300 mb-4">Thanks for playing, <span id="participantNameDisplay"></span>!</p>
+                <p class="text-lg text-gray-300 mb-2">Redirecting to Home...</p>
+                <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        </div>
+
+        <div class="leaderboard-section" id="leaderboardSection">
+            <h2 class="text-2xl font-bold text-cyan-400 mb-4">Live Leaderboard</h2>
+            <div id="leaderboard" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        let questions = JSON.parse(localStorage.getItem('quizQuestions')) || [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let participantName = "";
+        let participants = JSON.parse(localStorage.getItem('quizParticipants')) || [];
+        let pendingParticipants = JSON.parse(localStorage.getItem('pendingParticipants')) || [];
+        let timer = null;
+        let isQuizStarted = localStorage.getItem('isQuizStarted') === 'true';
+        let isAdmin = false;
+        let quizCode = localStorage.getItem('quizCode') || "";
+
+        window.onload = function () {
+            resetQuiz();
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            if (name) document.getElementById('participantName').value = decodeURIComponent(name);
+            if (isAdmin && quizCode) updateQuizCodeDisplay();
+            if (isAdmin) updatePendingList();
+            updateLeaderboard();
+        };
+
+        window.onbeforeunload = function () { if (!isAdmin) resetQuiz(); };
+
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            document.getElementById('adminSection').classList.toggle('hidden', !isAdmin);
+            document.getElementById('nameSection').classList.toggle('hidden', isAdmin);
+            const leaderboardSection = document.getElementById('leaderboardSection');
+            leaderboardSection.classList.toggle('admin-visible', isAdmin);
+
+            if (isAdmin) {
+                if (quizCode) updateQuizCodeDisplay();
+                updatePendingList();
+                updateLeaderboard();
+            } else {
+                if (!document.getElementById('quizSection').classList.contains('hidden')) return;
+                resetQuiz();
+            }
+        }
+
+        function addQuestion() {
+            const question = document.getElementById('newQuestion').value;
+            const options = Array.from(document.getElementsByClassName('option')).map(opt => opt.value);
+            const correct = document.getElementById('correctAnswer').value;
+
+            if (!question || options.some(opt => !opt) || !correct) {
+                alert("Please fill all fields!");
+                return;
+            }
+            if (!options.includes(correct)) {
+                alert("Correct answer must match one of the options!");
+                return;
+            }
+
+            questions.push({ question, options, correct });
+            try {
+                localStorage.setItem('quizQuestions', JSON.stringify(questions));
+            } catch (e) {
+                alert("Failed to save question: " + e.message);
+                return;
+            }
+            alert("Question added successfully!");
+            document.getElementById('newQuestion').value = '';
+            Array.from(document.getElementsByClassName('option')).forEach(opt => opt.value = '');
+            document.getElementById('correctAnswer').value = '';
+        }
+
+        function generateQuizCode() {
+            if (questions.length === 0) {
+                alert("Add at least one question first!");
+                return;
+            }
+            quizCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            localStorage.setItem('quizCode', quizCode);
+            participants = [];
+            pendingParticipants = [];
+            localStorage.setItem('quizParticipants', JSON.stringify(participants));
+            localStorage.setItem('pendingParticipants', JSON.stringify(pendingParticipants));
+            localStorage.setItem('isQuizStarted', 'false');
+            isQuizStarted = false;
+            updateQuizCodeDisplay();
+            updateLeaderboard();
+            updatePendingList();
+        }
+
+        function updateQuizCodeDisplay() {
+            const display = document.getElementById('quizCodeDisplay');
+            display.classList.add('hidden'); // Ensure it starts hidden
+            if (!quizCode) {
+                display.innerHTML = '<p class="text-red-400">No quiz code generated yet!</p>';
+            } else {
+                display.classList.remove('hidden');
+                display.innerHTML = `
+                    <p>Quiz Code: <strong>${quizCode}</strong></p>
+                    <p class="text-sm">Share this code with participants!</p>
+                    <button onclick="copyQuizCode()" class="mt-2 bg-gray-700 text-white p-2 rounded-lg btn-theme">Copy Code</button>
+                `;
+            }
+        }
+
+        function copyQuizCode() {
+            if (!quizCode) {
+                alert("No quiz code to copy!");
+                return;
+            }
+            navigator.clipboard.writeText(quizCode)
+                .then(() => alert("Quiz code copied to clipboard!"))
+                .catch(err => alert("Failed to copy quiz code: " + err));
+        }
+
+        function requestJoin() {
+            if (isAdmin) {
+                alert("Admins cannot join as participants. Exit admin mode first.");
+                return;
+            }
+            participantName = document.getElementById('participantName').value.trim();
+            const enteredCode = document.getElementById('quizCode').value.trim().toUpperCase();
+
+            if (!participantName || !enteredCode) {
+                alert("Please enter your name and quiz code!");
+                return;
+            }
+            if (enteredCode !== quizCode) {
+                alert("Invalid quiz code!");
+                return;
+            }
+            if (!quizCode) {
+                alert("Quiz has not been created yet!");
+                return;
+            }
+
+            if (participants.some(p => p.name === participantName)) {
+                joinQuiz();
+            } else if (!pendingParticipants.includes(participantName)) {
+                pendingParticipants.push(participantName);
+                localStorage.setItem('pendingParticipants', JSON.stringify(pendingParticipants));
+                updatePendingList();
+                alert("Join request sent! Waiting for admin approval.");
+            } else {
+                alert("You’ve already requested to join!");
+            }
+        }
+
+        function updatePendingList() {
+            const pendingDiv = document.getElementById('pendingParticipants');
+            pendingDiv.innerHTML = '<h3 class="text-lg font-bold text-cyan-400">Pending Participants</h3>';
+            if (pendingParticipants.length === 0) {
+                pendingDiv.innerHTML += '<p class="text-gray-300">No pending participants yet.</p>';
+            } else {
+                pendingParticipants.forEach((name, index) => {
+                    const entry = document.createElement('div');
+                    entry.classList.add('flex', 'justify-between', 'items-center', 'p-2', 'bg-gray-800', 'rounded-lg');
+                    entry.innerHTML = `
+                        <span class="text-gray-300">${name}</span>
+                        <button onclick="approveParticipant(${index})" class="bg-green-500 text-white p-1 rounded-lg btn-theme">Approve</button>
+                    `;
+                    pendingDiv.appendChild(entry);
+                });
+            }
+        }
+
+        function approveParticipant(index) {
+            const approvedName = pendingParticipants.splice(index, 1)[0];
+            participants.push({ name: approvedName, score: 0 });
+            localStorage.setItem('pendingParticipants', JSON.stringify(pendingParticipants));
+            localStorage.setItem('quizParticipants', JSON.stringify(participants));
+            updatePendingList();
+            updateLeaderboard();
+            alert(`${approvedName} has been approved to join the quiz!`);
+        }
+
+        function startQuizAdmin() {
+            if (questions.length === 0 || !quizCode) {
+                alert("Create a quiz and generate a code first!");
+                return;
+            }
+            isQuizStarted = true;
+            localStorage.setItem('isQuizStarted', 'true');
+            alert("Quiz has started! Approved participants can now play.");
+        }
+
+        function joinQuiz() {
+            participantName = document.getElementById('participantName').value.trim();
+            if (!isQuizStarted) {
+                alert("Quiz has not started yet!");
+                return;
+            }
+            if (!participants.some(p => p.name === participantName)) {
+                alert("You are not approved by the admin yet!");
+                return;
+            }
+            document.getElementById('nameSection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            updateLeaderboard();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) { finishQuiz(); return; }
+            const answered = localStorage.getItem(`answered_${participantName}_${currentQuestionIndex}`);
+            if (answered) {
+                nextQuestion();
+                return;
+            }
+            const question = questions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = `
+                <p class="text-xl font-semibold text-cyan-400 mb-4">Q${currentQuestionIndex + 1}/${questions.length}: ${question.question}</p>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <label class="flex items-center text-gray-300">
+                            <input type="radio" name="q${currentQuestionIndex}" value="${option}" class="mr-2" onchange="checkAnswer(this)"> ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+            const timerBar = document.getElementById('timerBar');
+            timerBar.style.animation = 'none';
+            void timerBar.offsetWidth;
+            timerBar.style.animation = 'timerAnimation 10s linear forwards';
+            clearTimeout(timer);
+            timer = setTimeout(nextQuestion, 10000);
+        }
+
+        function checkAnswer(input) {
+            const selectedAnswer = input.value;
+            const correctAnswer = questions[currentQuestionIndex].correct;
+            if (selectedAnswer === correctAnswer) score += 10;
+            localStorage.setItem(`answered_${participantName}_${currentQuestionIndex}`, 'true');
+            clearTimeout(timer);
+            showCelebration();
+            updateLeaderboard();
+            setTimeout(nextQuestion, 2000);
+        }
+
+        function showCelebration() {
+            const celebrationScreen = document.getElementById('celebrationScreen');
+            celebrationScreen.classList.remove('hidden');
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.background = ['#00ffff', '#ff00ff', '#f4a261'][Math.floor(Math.random() * 3)];
+                confetti.style.animationDelay = `${Math.random() * 1}s`;
+                celebrationScreen.appendChild(confetti);
+            }
+            setTimeout(() => {
+                celebrationScreen.classList.add('hidden');
+                while (celebrationScreen.childElementCount > 2) celebrationScreen.removeChild(celebrationScreen.lastChild);
+            }, 2000);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function finishQuiz() {
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('completionScreen').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = `${score}/${questions.length * 10}`;
+            document.getElementById('participantNameDisplay').textContent = participantName;
+            const participant = participants.find(p => p.name === participantName);
+            if (participant) participant.score = score;
+            localStorage.setItem('quizParticipants', JSON.stringify(participants));
+            updateLeaderboard(true);
+            setTimeout(() => { window.location.href = 'index.html'; }, 3000);
+        }
+
+        function updateLeaderboard(final = false) {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.innerHTML = '';
+            if (isAdmin) {
+                participants.sort((a, b) => b.score - a.score);
+                if (participants.length === 0) {
+                    leaderboard.innerHTML = '<p class="text-gray-300">No participants yet.</p>';
+                } else {
+                    participants.forEach((participant, index) => {
+                        const rank = index + 1;
+                        const entry = document.createElement('div');
+                        entry.classList.add('p-4', 'bg-gray-800', 'rounded-lg', 'border', 'border-gray-700');
+                        entry.innerHTML = `
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-cyan-400">#${rank} - ${participant.name}</span>
+                                <span class="text-xl font-bold text-pink-500">${participant.score}/${questions.length * 10}</span>
+                            </div>
+                        `;
+                        leaderboard.appendChild(entry);
+                    });
+                }
+            } else {
+                const participant = participants.find(p => p.name === participantName);
+                if (participant) {
+                    leaderboard.innerHTML = `
+                        <p class="text-gray-300">Your Score: <span class="text-pink-500">${participant.score}/${questions.length * 10}</span></p>
+                    `;
+                } else {
+                    leaderboard.innerHTML = '<p class="text-gray-300">Join the quiz to see your score!</p>';
+                }
+            }
+            localStorage.setItem('quizParticipants', JSON.stringify(participants));
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            participantName = "";
+            clearTimeout(timer);
+            timer = null;
+            document.getElementById('nameSection').classList.remove('hidden');
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('celebrationScreen').classList.add('hidden');
+            document.getElementById('completionScreen').classList.add('hidden');
+            document.getElementById('adminSection').classList.toggle('hidden', !isAdmin);
+            document.getElementById('participantName').value = '';
+            document.getElementById('quizCode').value = '';
+            if (isAdmin) {
+                updatePendingList();
+                updateQuizCodeDisplay();
+            }
+            updateLeaderboard();
+        }
+
+        function resetAll() {
+            if (confirm("Are you sure you want to reset everything?")) {
+                questions = [];
+                participants = [];
+                pendingParticipants = [];
+                quizCode = "";
+                isQuizStarted = false;
+                isAdmin = false;
+                currentQuestionIndex = 0;
+                score = 0;
+                participantName = "";
+                localStorage.clear();
+                clearTimeout(timer);
+                timer = null;
+                document.getElementById('adminSection').classList.add('hidden');
+                document.getElementById('nameSection').classList.remove('hidden');
+                document.getElementById('quizSection').classList.add('hidden');
+                document.getElementById('celebrationScreen').classList.add('hidden');
+                document.getElementById('completionScreen').classList.add('hidden');
+                document.getElementById('participantName').value = '';
+                document.getElementById('quizCode').value = '';
+                document.getElementById('newQuestion').value = '';
+                Array.from(document.getElementsByClassName('option')).forEach(opt => opt.value = '');
+                document.getElementById('correctAnswer').value = '';
+                updateQuizCodeDisplay();
+                updatePendingList();
+                updateLeaderboard();
+                alert("Quiz reset successfully!");
+            }
+        }
+
+        document.addEventListener('copy', (e) => {
+            if (e.target.tagName === 'INPUT' && e.target.value === quizCode) return;
+            e.preventDefault();
+        });
+        document.addEventListener('paste', (e) => e.preventDefault());
+        document.addEventListener('cut', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
