@@ -90,7 +90,14 @@ Follow these steps to set up the project locally:
  **License**:
     - Specifies MIT License (standard for open-source) with a placeholder `LICENSE`.
 
- **Contact**:
-    - Lists GitHub Issues, email from  (`rishabhpawar@gmail.com`), and linkedIn ('Rishabh Farkade').
-    - Ends with a motivational call to join and star the repo
+## 📬 Contact
+
+Feel free to reach out for collaborations, questions, or feedback!
+
+- 📧 Email: rishabhpawar059@example.com  
+- 💼 LinkedIn: [linkedin.com/in/yourprofile]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/rishabh-farkade-91600a263))  
+- 🐦 Whatsapp: 9303812205
+
+Let's build something awesome together!
+
   
