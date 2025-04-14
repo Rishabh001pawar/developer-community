@@ -8,7 +8,7 @@ Welcome to the **JNCT Developer Community Website**, an open-source platform uni
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [how to use](#how to use)
+  - [Installation](#Installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
@@ -62,20 +62,15 @@ Set up the project locally to explore or contribute!
 - A code editor (e.g., VS Code)
 - (Optional) Node.js and npm for local server testing (e.g., `live-server`)
 
-### How to use
-1. Create a GitHub repository (e.g., `jnct-dev-community`).
-2. Save the above as `README.md` in the repo root.
-3. Add project files:
-   - `index.html` (provided code).
-   - `halloffame.html` and `news.html` (from prior requests or create placeholders).
-   - `images/` with assets (e.g., `bg.jpg`, `ml-model.png`, etc.).
-   - Empty `styles.css` and `scripts.js` (or remove references in `index.html` if unused).
-4. (Optional) Add a screenshot to `assets/images/screenshot.png`.
-5. Push to GitHub:
+### 🚀 Installation
+
+Follow these steps to set up the project locally:
+
+1. **Clone the repository**
    ```bash
-   git add .
-   git commit -m "Add JNCT Dev Community with README"
-   git push origin main
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+
 
 #### Integration with Provided Code
 - **Content**: Reflects `index.html` sections (e.g., Tech with ML/AI cards, Events with hackathons, Mentors with placeholder profiles).
