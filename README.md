@@ -8,7 +8,7 @@ Welcome to the **JNCT Developer Community Website**, an open-source platform uni
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+  - [how to use](#how to use)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
@@ -62,14 +62,7 @@ Set up the project locally to explore or contribute!
 - A code editor (e.g., VS Code)
 - (Optional) Node.js and npm for local server testing (e.g., `live-server`)
 
-#### Integration with Provided Code
-- **Content**: Reflects `index.html` sections (e.g., Tech with ML/AI cards, Events with hackathons, Mentors with placeholder profiles).
-- **Navigation**: Includes links, consistent with prior requests.
-- **Design**: Mentions cyberpunk aesthetic (#D81B60 to #00B0FF gradients, AOS animations) from Tailwind classes and inline styles.
-- **Functionality**: Notes Web3Forms contact form, FAQ accordions, and mobile menu JavaScript.
-- **Assets**: Warns about missing images (e.g., `images/ml-model.png`) and empty `styles.css`/`scripts.js`, suggesting users add them.
-  
-### How to Use
+### How to use
 1. Create a GitHub repository (e.g., `jnct-dev-community`).
 2. Save the above as `README.md` in the repo root.
 3. Add project files:
@@ -83,3 +76,26 @@ Set up the project locally to explore or contribute!
    git add .
    git commit -m "Add JNCT Dev Community with README"
    git push origin main
+
+#### Integration with Provided Code
+- **Content**: Reflects `index.html` sections (e.g., Tech with ML/AI cards, Events with hackathons, Mentors with placeholder profiles).
+- **Navigation**: Includes links, consistent with prior requests.
+- **Design**: Mentions cyberpunk aesthetic (#D81B60 to #00B0FF gradients, AOS animations) from Tailwind classes and inline styles.
+- **Functionality**: Notes Web3Forms contact form, FAQ accordions, and mobile menu JavaScript.
+- **Assets**: Warns about missing images (e.g., `images/ml-model.png`) and empty `styles.css`/`scripts.js`, suggesting users add them.
+
+ **Contributing**:
+   - Step-by-step process: fork, branch, code, PR.
+   - Offers ideas: backend, dynamic content, accessibility, testing.
+   - Encourages diverse contributions (code, design, docs).
+
+ **Code of Conduct**:
+   - Links to a placeholder `CODE_OF_CONDUCT.md` for inclusivity.
+
+ **License**:
+    - Specifies MIT License (standard for open-source) with a placeholder `LICENSE`.
+
+ **Contact**:
+    - Lists GitHub Issues, email from  (`rishabhpawar@gmail.com`), and linkedIn ('Rishabh Farkade').
+    - Ends with a motivational call to join and star the repo
+  
