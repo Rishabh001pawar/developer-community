@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JNCT Hackathon - Hall of Fame</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .fame-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(145deg, #1f2937, #111827);
+      }
+      .fame-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+      }
+      .gradient-text {
+        background: linear-gradient(to right, #00ffff, #ff00ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .trophy-icon {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+      .filter-btn {
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      .filter-btn.active {
+        background: linear-gradient(to right, #00ffff, #ff00ff);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-200 min-h-screen">
+    <header class="bg-gray-800 py-6 shadow-lg">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <h1 class="text-3xl font-bold gradient-text">JNCT Hackathon Hall of Fame</h1>
+        <nav class="space-x-6 hidden md:flex">
+          <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <a href="news.html" class="hover:text-cyan-400 transition-colors">News</a>
+          <a href="#hall-of-fame" class="hover:text-cyan-400 transition-colors">Hall of Fame</a>
+          <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+        </nav>
+        <button class="md:hidden text-gray-400 hover:text-cyan-400" onclick="toggleMenu()">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden bg-gray-800 py-4">
+        <div class="container mx-auto px-4 flex flex-col space-y-4">
+          <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <a href="news.html" class="hover:text-cyan-400 transition-colors">News</a>
+          <a href="#hall-of-fame" class="hover:text-cyan-400 transition-colors">Hall of Fame</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+      <!-- Hero Section -->
+      <section class="text-center mb-16">
+        <h2 class="text-4xl font-extrabold gradient-text mb-4">
+          Hall of Fame
+        </h2>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          Celebrating the brightest minds and top performers who have shone in the JNCT Hackathon. Join the ranks of our developer legends!
+        </p>
+      </section>
+
+      <!-- Filters -->
+      <section class="mb-12 flex justify-center space-x-4">
+        <button
+          class="filter-btn px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600 active"
+          data-filter="all"
+          onclick="filterFame('all')"
+        >
+          All
+        </button>
+        <button
+          class="filter-btn px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600"
+          data-filter="quiz"
+          onclick="filterFame('quiz')"
+        >
+          Quiz Champions
+        </button>
+        <button
+          class="filter-btn px-4 py-2 rounded-lg bg-gray-700 text-gray-200 hover:bg-gray-600"
+          data-filter="hackathon"
+          onclick="filterFame('hackathon')"
+        >
+          Hackathon Winners
+        </button>
+      </section>
+
+      <!-- Hall of Fame -->
+      <section id="hall-of-fame" class="mb-16">
+        <h3 class="text-3xl font-bold text-cyan-400 mb-8">Our Legends</h3>
+        <div id="fameContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Fame cards populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="text-center bg-gray-800 py-12 rounded-lg">
+        <h3 class="text-3xl font-bold gradient-text mb-4">Want to Be a Legend?</h3>
+        <p class="text-gray-400 mb-6 max-w-md mx-auto">
+          Join the next JNCT Hackathon or quiz to showcase your skills and earn your spot in the Hall of Fame!
+        </p>
+        <a
+          href="index.html"
+          class="inline-block bg-gradient-to-r from-cyan-500 to-pink-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-cyan-600 hover:to-pink-600 transition-all"
+        >
+          Join Now
+        </a>
+      </section>
+    </main>
+
+    <footer class="bg-gray-800 py-6 mt-12">
+      <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>© 2025 JNCT Hackathon. All rights reserved.</p>
+        <div class="mt-2 space-x-4">
+          <a href="#" class="hover:text-cyan-400">Privacy Policy</a>
+          <a href="#" class="hover:text-cyan-400">Terms of Service</a>
+          <a href="#" class="hover:text-cyan-400">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Sample data, partially derived from quiz history
+      let fameData = [
+        {
+          name: "E-CELL JNCT",
+          achievement: "NEC Finalist IIT-B",
+          category: "6 Month Challenge",
+          avatar: "images/test1.jpg",
+          description:"E-Cell IIT Bombay NEC Finalist – recognized for innovation, entrepreneurship, and impactful tech-driven solutions.",
+        },
+        // {
+        //   name: "Team Innovate",
+        //   achievement: "1st Place - Hackathon 2024",
+        //   category: "hackathon",
+        //   score: null,
+        //   date: "2024-10-20",
+        //   quizCode: null,
+        //   avatar: "https://via.placeholder.com/100",
+        //   description: "Team Innovate built an AI-powered app that won the hackathon with innovative features.",
+        // },
+        // {
+        //   name: "Priya Sharma",
+        //   achievement: "Quiz Master - Spring 2025",
+        //   category: "quiz",
+        //   score: 85,
+        //   date: "2025-03-10",
+        //   quizCode: "XYZ789",
+        //   avatar: "https://via.placeholder.com/100",
+        //   description: "Priya excelled in the Spring Quiz, earning accolades for consistency and speed.",
+        // },
+        // {
+        //   name: "CodeWizards",
+        //   achievement: "Best UI - Hackathon 2024",
+        //   category: "hackathon",
+        //   score: null,
+        //   date: "2024-10-20",
+        //   quizCode: null,
+        //   avatar: "https://via.placeholder.com/100",
+        //   description: "CodeWizards impressed judges with a stunning UI design in the hackathon.",
+        // },
+      ];
+
+      // Load quiz history from localStorage if available
+      function loadQuizHistory() {
+        const quizHistory = JSON.parse(localStorage.getItem("quizHistory")) || [];
+        quizHistory.forEach((session) => {
+          session.participants
+            .filter((p) => p.score >= 80) // Highlight top scorers (e.g., 80+)
+            .forEach((p) => {
+              if (!fameData.some((f) => f.name === p.name && f.quizCode === session.quizCode)) {
+                fameData.push({
+                  name: p.name,
+                  achievement: `High Scorer - Quiz ${session.quizCode}`,
+                  category: "quiz",
+                  score: p.score,
+                  date: session.timestamp.split("T")[0],
+                  quizCode: session.quizCode,
+                  avatar: "https://via.placeholder.com/100",
+                  description: `${p.name} achieved a high score in the ${session.quizCode} quiz, demonstrating skill and dedication.`,
+                });
+              }
+            });
+        });
+      }
+
+      function populateFame(filter = "all") {
+        const container = document.getElementById("fameContainer");
+        container.innerHTML = "";
+        let filteredData = fameData;
+        if (filter !== "all") {
+          filteredData = fameData.filter((item) => item.category === filter);
+        }
+        filteredData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date (newest first)
+        filteredData.forEach((item) => {
+          const card = document.createElement("div");
+          card.className =
+            "fame-card p-6 rounded-lg shadow-lg border border-gray-700 flex flex-col items-center text-center";
+          card.innerHTML = `
+            <img src="${item.avatar}" alt="${item.name}" class="w-24 h-24 rounded-full mb-4 border-2 border-cyan-400">
+            <h4 class="text-xl font-semibold text-cyan-400 mb-2">${item.name}</h4>
+            <p class="text-pink-500 font-medium mb-2">${item.achievement}</p>
+            <span class="badge ${
+              item.category === "quiz" ? "bg-cyan-600" : "bg-pink-600"
+            } text-white mb-4">${item.category}</span>
+            <p class="text-gray-400 text-sm mb-2">${item.date}</p>
+            ${
+              item.score
+                ? `<p class="text-gray-300 text-sm mb-4">Score: ${item.score}/100</p>`
+                : ""
+            }
+            <p class="text-gray-400 text-sm mb-4">${item.description}</p>
+            <svg class="w-8 h-8 text-yellow-400 trophy-icon" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M7 2a2 2 0 00-2 2H3v4h2v1a3 3 0 006 0v-1h2V4h-2a2 2 0 00-2-2H7zm0 2h2v2H7V4zm-3 6h12v2H4v-2zm0 4h12v2H4v-2z" />
+            </svg>
+          `;
+          container.appendChild(card);
+        });
+        if (filteredData.length === 0) {
+          container.innerHTML =
+            '<p class="text-gray-400 col-span-full text-center">No legends found for this category.</p>';
+        }
+      }
+
+      function filterFame(category) {
+        populateFame(category);
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.filter === category);
+        });
+      }
+
+      function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadQuizHistory();
+        populateFame("all");
+      });
+    </script>
+  </body>
+</html>
+

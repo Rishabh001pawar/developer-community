@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Community News</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .news-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+      }
+      .tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .gradient-text {
+        background: linear-gradient(to right, #00ffff, #ff00ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .newsletter-form input {
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .newsletter-form input:focus {
+        border-color: #00ffff;
+        box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+      }
+      .newsletter-form button {
+        transition: background 0.3s ease;
+      }
+      .newsletter-form button:hover {
+        background: linear-gradient(to right, #00cccc, #cc00cc);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-200 min-h-screen">
+    <header class="bg-gray-800 py-6 shadow-lg">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <h1 class="text-3xl font-bold gradient-text">Developer Community News</h1>
+        <nav class="space-x-6 hidden md:flex">
+          <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <a href="#news" class="hover:text-cyan-400 transition-colors">News</a>
+          <a href="#resources" class="hover:text-cyan-400 transition-colors">Resources</a>
+        </nav>
+        <button class="md:hidden text-gray-400 hover:text-cyan-400" onclick="toggleMenu()">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden bg-gray-800 py-4">
+        <div class="container mx-auto px-4 flex flex-col space-y-4">
+          <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+          <a href="#news" class="hover:text-cyan-400 transition-colors">News</a>
+          <a href="#events" class="hover:text-cyan-400 transition-colors">Events</a>
+          <a href="#resources" class="hover:text-cyan-400 transition-colors">Resources</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+      <!-- Hero Section -->
+      <section class="text-center mb-16">
+        <h2 class="text-4xl font-extrabold gradient-text mb-4">
+          Stay Updated with Developer community
+        </h2>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          Your go-to source for the latest news, events, and resources for developers in the Developer community.
+        </p>
+        <a
+          href="#newsletter"
+          class="mt-6 inline-block bg-gradient-to-r from-cyan-500 to-pink-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-cyan-600 hover:to-pink-600 transition-all"
+        >
+          Subscribe to Updates
+        </a>
+      </section>
+
+      <!-- News Section -->
+      <section id="news" class="mb-16">
+        <h3 class="text-3xl font-bold text-cyan-400 mb-8">Latest News</h3>
+        <div id="newsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- News items populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Events Section -->
+      <section id="events" class="mb-16">
+        <h3 class="text-3xl font-bold text-cyan-400 mb-8">Upcoming Events</h3>
+        <div id="eventsContainer" class="space-y-6">
+          <!-- Events populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Resources Section -->
+      <section id="resources" class="mb-16">
+        <h3 class="text-3xl font-bold text-cyan-400 mb-8">Developer Resources</h3>
+        <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h4 class="text-xl font-semibold text-cyan-400 mb-2">Hackathon Starter Kit</h4>
+            <p class="text-gray-400 mb-4">
+              Get started with our curated list of tools, APIs, and tutorials to kick off your project.
+            </p>
+            <a href="#" class="text-pink-500 hover:text-pink-400">Learn More &rarr;</a>
+          </div>
+          <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h4 class="text-xl font-semibold text-cyan-400 mb-2">Community Forum</h4>
+            <p class="text-gray-400 mb-4">
+              Join discussions, ask questions, and collaborate with other developers.
+            </p>
+            <a href="#" class="text-pink-500 hover:text-pink-400">Join Now &rarr;</a>
+          </div>
+        </div> -->
+      </section>
+
+      <!-- Newsletter Signup -->
+      <section id="newsletter" class="text-center bg-gray-800 py-12 rounded-lg">
+        <h3 class="text-3xl font-bold gradient-text mb-4">Join Our Newsletter</h3>
+        <p class="text-gray-400 mb-6 max-w-md mx-auto">
+          Get the latest updates delivered to your inbox. No spam, just developer goodness.
+        </p>
+        <form id="newsletterForm" class="newsletter-form flex flex-col sm:flex-row justify-center gap-4 max-w-lg mx-auto">
+          <input
+            type="email"
+            id="emailInput"
+            placeholder="Enter your email"
+            class="flex-1 p-3 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none"
+            required
+          />
+          <button
+            type="submit"
+            class="bg-gradient-to-r from-cyan-500 to-pink-500 text-white py-3 px-6 rounded-lg font-semibold"
+          >
+            Subscribe
+          </button>
+        </form>
+        <p id="newsletterMessage" class="mt-4 text-sm text-gray-400 hidden"></p>
+      </section>
+    </main>
+
+    <footer class="bg-gray-800 py-6 mt-12">
+      <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>&copy; 2025 Developer Community. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const newsItems = [
+        {
+          title: "JNCT Hackathon 2025 Registration Opens!",
+          date: "2025-04-14",
+          summary:
+            "Sign up now for the JNCT Hackathon 2025. Compete for prizes, showcase your skills, and connect with developers worldwide.",
+          tags: ["Hackathon", "Event"],
+          link: "hack.html",
+        },
+        // {
+        //   title: "New API Workshops Announced",
+        //   date: "2025-04-10",
+        //   summary:
+        //     "Join our upcoming workshops to learn about integrating APIs into your hackathon projects. Free for all participants!",
+        //   tags: ["Workshop", "Learning"],
+        //   link: "#",
+        // },
+        // {
+        //   title: "Mentor Spotlight: Sarah Johnson",
+        //   date: "2025-04-08",
+        //   summary:
+        //     "Meet Sarah, a senior engineer at TechCorp, who will guide teams during the hackathon. Book a session now!",
+        //   tags: ["Mentorship", "Community"],
+        //   link: "#",
+        // },
+      ];
+
+      const events = [
+        // {
+        //   title: "Kickoff Webinar",
+        //   date: "2025-04-20",
+        //   time: "6:00 PM PDT",
+        //   description: "Learn about the hackathon rules, themes, and prizes in our live webinar.",
+        //   link: "#",
+        // },
+        // {
+        //   title: "Coding Sprint",
+        //   date: "2025-04-25",
+        //   time: "10:00 AM PDT",
+        //   description: "Join a 24-hour coding sprint to prototype your ideas with community support.",
+        //   link: "#",
+        // },
+      ];
+
+      function populateNews() {
+        const container = document.getElementById("newsContainer");
+        container.innerHTML = "";
+        newsItems.forEach((item) => {
+          const card = document.createElement("div");
+          card.className =
+            "news-card bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700";
+          card.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm text-gray-500">${item.date}</span>
+              <div class="space-x-2">
+                ${item.tags
+                  .map(
+                    (tag) =>
+                      `<span class="tag bg-cyan-600 text-white">${tag}</span>`
+                  )
+                  .join("")}
+              </div>
+            </div>
+            <h4 class="text-xl font-semibold text-cyan-400 mb-2">${item.title}</h4>
+            <p class="text-gray-400 mb-4">${item.summary}</p>
+            <a href="${
+              item.link
+            }" class="text-pink-500 hover:text-pink-400">Read More &rarr;</a>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function populateEvents() {
+        const container = document.getElementById("eventsContainer");
+        container.innerHTML = "";
+        events.forEach((event) => {
+          const card = document.createElement("div");
+          card.className =
+            "bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700";
+          card.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm text-gray-500">${event.date} | ${event.time}</span>
+              <span class="tag bg-pink-600 text-white">Event</span>
+            </div>
+            <h4 class="text-xl font-semibold text-cyan-400 mb-2">${event.title}</h4>
+            <p class="text-gray-400 mb-4">${event.description}</p>
+            <a href="${
+              event.link
+            }" class="text-pink-500 hover:text-pink-400">Register &rarr;</a>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+      }
+
+      function handleNewsletterSignup(event) {
+        event.preventDefault();
+        const email = document.getElementById("emailInput").value.trim();
+        const message = document.getElementById("newsletterMessage");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email) {
+          showNewsletterMessage("Please enter an email address.", "error");
+          return;
+        }
+        if (!emailRegex.test(email)) {
+          showNewsletterMessage("Please enter a valid email address.", "error");
+          return;
+        }
+
+        // Simulate subscription (replace with actual API call in production)
+        showNewsletterMessage("Subscribed successfully! Welcome aboard!", "success");
+        setTimeout(() => {
+          message.classList.add("hidden");
+          document.getElementById("newsletterForm").reset();
+        }, 2000);
+      }
+
+      function showNewsletterMessage(text, type) {
+        const message = document.getElementById("newsletterMessage");
+        message.textContent = text;
+        message.classList.remove("hidden", "text-red-400", "text-green-400");
+        message.classList.add(type === "error" ? "text-red-400" : "text-green-400");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        populateNews();
+        populateEvents();
+        document
+          .getElementById("newsletterForm")
+          .addEventListener("submit", handleNewsletterSignup);
+      });
+    </script>
+  </body>
+</html>
