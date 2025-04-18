@@ -106,6 +106,12 @@ input:focus, textarea:focus, select:focus {
         .error input, .error textarea, .error select {
             border-color: #f87171;
         }
+        #thankYouScreen {
+    transition: opacity 0.5s ease;
+}
+#thankYouScreen.hidden {
+    opacity: 0;
+}
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
@@ -204,7 +210,7 @@ input:focus, textarea:focus, select:focus {
     <!-- Thank You Animation Screen -->
     <div id="thankYouScreen" class="fixed inset-0 bg-gray-900 text-white flex flex-col items-center justify-center text-center hidden z-50">
         <h1 class="text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-pink-500 text-transparent bg-clip-text mb-4 animate-bounce">
-            Welcome Aboard!
+            Thank you for joining ..Welcome Aboard!
         </h1>
         <p class="text-lg text-gray-300 mb-2">Redirecting to home...</p>
         <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>

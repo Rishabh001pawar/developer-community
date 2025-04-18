@@ -1,11 +1,37 @@
 const TOTAL_STEPS = 3;
+const FORM_FIELDS = ["name", "email", "college", "year", "mobile", "github", "motivation", "field"];
 
-// Load saved form data
+// Cache DOM elements for performance
+const elements = {
+    form: document.getElementById("joinForm"),
+    steps: Array.from({ length: TOTAL_STEPS }, (_, i) => document.getElementById(`step${i + 1}`)),
+    progress: Array.from({ length: TOTAL_STEPS }, (_, i) => document.getElementById(`progress${i + 1}`)),
+    submitButton: document.querySelector('button[type="submit"]'),
+    thankYouScreen: document.getElementById("thankYouScreen"),
+    formContainer: document.querySelector(".form-container"),
+};
+
+// Load saved form data with error handling
 function loadFormData() {
-    document.querySelectorAll("input, textarea, select").forEach((input) => {
-        input.value = localStorage.getItem(input.id) || "";
-        input.addEventListener("input", () => localStorage.setItem(input.id, input.value));
-    });
+    try {
+        document.querySelectorAll("input, textarea, select").forEach((input) => {
+            input.value = localStorage.getItem(input.id) || "";
+            input.addEventListener("input", debounce(() => {
+                localStorage.setItem(input.id, input.value);
+            }, 300));
+        });
+    } catch (error) {
+        console.warn("LocalStorage unavailable:", error);
+    }
+}
+
+// Debounce utility to reduce event listener overhead
+function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
+    };
 }
 
 function nextStep(currentStep) {
@@ -21,8 +47,8 @@ function prevStep(currentStep) {
 }
 
 function toggleStepVisibility(currentStep, targetStep) {
-    const currentStepEl = document.getElementById(`step${currentStep}`);
-    const targetStepEl = document.getElementById(`step${targetStep}`);
+    const currentStepEl = elements.steps[currentStep - 1];
+    const targetStepEl = elements.steps[targetStep - 1];
     if (currentStepEl && targetStepEl) {
         currentStepEl.classList.add("hidden");
         targetStepEl.classList.remove("hidden");
@@ -30,62 +56,67 @@ function toggleStepVisibility(currentStep, targetStep) {
 }
 
 function updateProgressBar(step, isNext) {
-    const progressEl = document.getElementById(`progress${step}`);
+    const progressEl = elements.progress[step - 1];
     if (progressEl) {
         progressEl.classList.toggle("w-full", isNext);
+        progressEl.setAttribute("aria-valuenow", isNext ? 100 : 0);
     }
 }
 
 function validateStep(step) {
-    const stepEl = document.getElementById(`step${step}`);
+    const stepEl = elements.steps[step - 1];
     if (!stepEl) return false;
 
     const inputs = stepEl.querySelectorAll("input[required], textarea[required], select[required]");
     let isValid = true;
+    clearErrors(stepEl);
+
     for (let input of inputs) {
         const errorEl = input.nextElementSibling;
-        errorEl.style.display = "none";
-        input.parentElement.classList.remove("error");
-
         if (!input.value.trim()) {
             showError(input, `Please fill out ${input.name}`);
             isValid = false;
-        } else if (input.type === "email" && !/^\S+@\S+\.\S+$/.test(input.value)) {
+        } else if (input.type === "email" && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.value)) {
             showError(input, "Please enter a valid email");
             isValid = false;
-        } else if (input.type === "tel" && !/^\+?\d{10,15}$/.test(input.value)) {
-            showError(input, "Please enter a valid mobile number");
+        } else if (input.type === "tel" && !/^\+?[\d\s-]{10,15}$/.test(input.value)) {
+            showError(input, "Please enter a valid mobile number (10-15 digits)");
+            isValid = false;
+        } else if (input.id === "github" && !/^https?:\/\/(www\.)?github\.com\/[\w-]+\/?$/.test(input.value)) {
+            showError(input, "Please enter a valid GitHub profile URL");
             isValid = false;
         }
     }
     return isValid;
 }
 
+function clearErrors(stepEl) {
+    stepEl.querySelectorAll(".error-message").forEach((el) => {
+        el.style.display = "none";
+        el.parentElement.classList.remove("error");
+    });
+}
+
 function showError(input, message) {
     const errorEl = input.nextElementSibling;
-    errorEl.textContent = message;
-    errorEl.style.display = "block";
-    input.parentElement.classList.add("error");
-    input.focus();
+    if (errorEl && errorEl.classList.contains("error-message")) {
+        errorEl.textContent = message;
+        errorEl.style.display = "block";
+        input.parentElement.classList.add("error");
+        input.focus();
+    }
 }
 
 function submitForm() {
     if (!validateStep(TOTAL_STEPS)) return;
 
     const formData = {
-        data: {
-            name: document.getElementById("name").value.trim(),
-            email: document.getElementById("email").value.trim(),
-            college: document.getElementById("college").value.trim(),
-            year: document.getElementById("year").value.trim(),
-            mobile: document.getElementById("mobile").value.trim(),
-            github: document.getElementById("github").value.trim(),
-            motivation: document.getElementById("motivation").value.trim(),
-            field: document.getElementById("field").value.trim(),
-        },
+        data: Object.fromEntries(
+            FORM_FIELDS.map((id) => [id, document.getElementById(id)?.value.trim() || ""])
+        ),
     };
 
-    const submitButton = document.querySelector('button[type="submit"]');
+    const { submitButton } = elements;
     submitButton.disabled = true;
     submitButton.textContent = "Submitting...";
 
@@ -95,21 +126,25 @@ function submitForm() {
         body: JSON.stringify(formData),
     })
         .then((response) => {
-            if (!response.ok) throw new Error("API error");
+            if (!response.ok) throw new Error(`API error: ${response.status}`);
             return response.json();
         })
         .then((data) => {
             console.log("Submitted to SheetDB:", data);
-            document.querySelector(".form-container").classList.add("hidden");
-            document.getElementById("thankYouScreen").classList.remove("hidden");
-            localStorage.clear(); // Clear form data after submission
+            elements.formContainer.classList.add("hidden");
+            elements.thankYouScreen.classList.remove("hidden");
+            try {
+                localStorage.clear();
+            } catch (error) {
+                console.warn("Failed to clear localStorage:", error);
+            }
             setTimeout(() => {
                 window.location.href = "index.html";
-            }, 5000); // Increased for Discord link visibility
+            }, 3000); // Reduced to 3 seconds for faster redirect
         })
         .catch((error) => {
-            const stepEl = document.getElementById(`step${TOTAL_STEPS}`);
-            showError(stepEl.querySelector("select"), "Submission failed. Please try again.");
+            showError(elements.steps[TOTAL_STEPS - 1].querySelector("input, select, textarea"), 
+                "Submission failed. Please try again or contact support.");
             console.error("SheetDB Error:", error);
         })
         .finally(() => {
@@ -118,17 +153,30 @@ function submitForm() {
         });
 }
 
-// Handle form submission via Enter key
-document.getElementById("joinForm").addEventListener("submit", (e) => {
+// Prevent Enter key from submitting prematurely
+elements.form.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        const currentStep = parseInt(elements.steps.findIndex((step) => !step.classList.contains("hidden")) + 1);
+        if (currentStep < TOTAL_STEPS) {
+            nextStep(currentStep);
+        } else {
+            submitForm();
+        }
+    }
+});
+
+// Handle form submission
+elements.form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const currentStep = Array.from(document.querySelectorAll(".step:not(.hidden)"))[0]?.id.replace("step", "");
+    const currentStep = parseInt(elements.steps.findIndex((step) => !step.classList.contains("hidden")) + 1);
     if (currentStep < TOTAL_STEPS) {
-        nextStep(parseInt(currentStep));
+        nextStep(currentStep);
     } else {
         submitForm();
     }
 });
 
 // Initialize
-document.getElementById("progress1").classList.add("w-full");
+elements.progress[0]?.classList.add("w-full");
 loadFormData();
