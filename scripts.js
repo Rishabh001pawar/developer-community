@@ -9,6 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelector('.slides');
     const slideImages = document.querySelectorAll('.slide');
     const dotsContainer = document.querySelector('.slider-dots');
+
+    // Check if `.slides` exists
+    if (!slides) {
+        console.error('Error: The `.slides` element does not exist in the DOM.');
+        return;
+    }
+
+    if (slideImages.length === 0) {
+        console.error('Error: No `.slide` elements found inside `.slides`.');
+        return;
+    }
+
+    if (!dotsContainer) {
+        console.error('Error: The `.slider-dots` element does not exist in the DOM.');
+        return;
+    }
+
     let currentSlide = 0;
 
     // Create navigation dots
