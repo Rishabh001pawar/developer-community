@@ -136,5 +136,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 =======
-./node_modules
+node_modules/
 >>>>>>> 4790e38 (Initial commit)
